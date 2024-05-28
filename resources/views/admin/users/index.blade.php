@@ -34,15 +34,39 @@
                     <p class="mb-0">{{ $user->created_at }}</p>
                 </td>
                 <td class="">
-                    <p class="mb-0"><i class="fa-solid fa-circle text-success"></i> Active</p>
+                    @if($user->deleted_at)
+                        <p class="mb-0"><i class="fa-regular fa-circle"></i> Inactive</p>
+                    @else
+                        <p class="mb-0"><i class="fa-solid fa-circle text-success"></i> Active</p>
+                    @endif
                 </td>
                 <td class="">
                     <button type="button" class="btn dropdown" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i></button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#" class="dropdown-item text-danger"><i class="fa-solid fa-user-slash"></i> Deactivate {{ $user->name }}</a>
-                        </li>
-                    </ul>
+                    @if($user->deleted_at)
+                        <ul class="dropdown-menu">
+                            <li>
+                                <form action="{{ route('admin.users.restore', $user->id) }}" method="post">
+                                    @csrf
+                                    @method('GET')
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="fa-solid fa-user-check"></i> Activate {{ $user->name }}
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    @else
+                        <ul class="dropdown-menu">
+                            <li>
+                                <form action="{{ route('admin.users.softdelete', $user->id) }}" method="post">
+                                    @csrf
+                                    @method('GET')
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="fa-solid fa-user-slash"></i> Deactivate {{ $user->name }}
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    @endif
                 </td>
             </tr>
         @empty

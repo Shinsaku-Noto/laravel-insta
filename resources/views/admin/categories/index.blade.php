@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="col-8">
-        <form action="#" method="post">
+        <form action="{{ route('category.store') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-7">
@@ -69,17 +69,22 @@
 <!-- Delete Modal -->
 <div class="modal fade" id="delete-{{ $category->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content border border-danger rounded-3">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <p class="mb-0 fs-5 text-danger"><i class="fa-regular fa-trash-can"></i> Delete Category</p>
         </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+        <div class="modal-body border-top border-danger">
+            <form action="{{ route('category.destroy', $category->id) }}" method="post">
+                @csrf
+                @method('DELETE')
+                <p class="mb-0">Are you sure you want to delete {{ $category->name }} category?</p>
+                <p class="">This action will affect all the posts under this category. Posts without category will fall under Uncategorized.</p>
+                <div class="mt-2 text-end">
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+
         </div>
       </div>
     </div>

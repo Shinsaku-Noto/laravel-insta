@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\CategoriesController;
 
+
 Route::get('/', function () {
     return view('home');
 });
@@ -29,6 +30,10 @@ Route::group(["middleware" => "auth"], function () {
     Route::get('/admin/users/', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.users');
     Route::get('/admin/posts/', [App\Http\Controllers\Admin\PostsController::class, 'index'])->name('admin.posts');
     Route::get('/admin/categories/', [App\Http\Controllers\Admin\CategoriesController::class, 'index'])->name('admin.categories');
+
+    Route::get('/admin/users/softdelete/{id}', [App\Http\Controllers\Admin\UserController::class,'softdelete'])->name('admin.users.softdelete');
+    Route::get('/admin/users/restore/{id}', [App\Http\Controllers\Admin\UserController::class,'restore'])->name('admin.users.restore');
+
 
     Route::resource('/post', PostController::class);
     Route::resource('/category', CategoryController::class);

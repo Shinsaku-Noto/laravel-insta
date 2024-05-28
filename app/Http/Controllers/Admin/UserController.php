@@ -18,9 +18,25 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = $this->user->all();
+        $users = $this->user->withTrashed()->get();
 
         return view('admin.users.index')
                 ->with('users', $users);
+    }
+
+    public function softdelete($id)
+    {
+        $user = $this->user->findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('admin.users');
+    }
+
+    public function restore($id)
+    {
+        $user = $this->user->onlyTrashed()->findOrFail($id);
+        $user->restore();
+
+        return redirect()->route('admin.users');
     }
 }

@@ -34,7 +34,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = $this->category;
+        $category->name = $request->category;
+        $category->save();
+
+        return redirect()->route('admin.categories');
     }
 
     /**
@@ -60,8 +64,6 @@ class CategoryController extends Controller
     {
         $category = $this->category->findOrFail($id);
 
-        return $category;
-
         $category->name = $request->name;
         $category->save();
 
@@ -71,8 +73,11 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $category = $this->category->findOrFail($id);
+        $category->delete();
+
+        return redirect()->route('admin.categories');
     }
 }
