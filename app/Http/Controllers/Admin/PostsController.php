@@ -18,9 +18,25 @@ class PostsController extends Controller
 
     public function index()
     {
-        $posts = $this->post->latest()->get();
+        $posts = $this->post->withTrashed()->get();
 
         return view('admin.posts.index')
                 ->with('posts', $posts);
+    }
+
+    public function softdelete($id)
+    {
+        $post = $this->post->findOrFail($id);
+        $post->delete();
+
+        return redirect()->route('admin.posts');
+    }
+
+    public function restore($id)
+    {
+        $post = $this->post->withTrashed()->findOrFail($id);
+        $post->restore();
+
+        return redirect()->route('admin.posts');
     }
 }

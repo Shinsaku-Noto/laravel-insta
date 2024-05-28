@@ -15,7 +15,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable, SoftDeletes;
 
     public function post() {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class)->withTrashed();
     }
 
     public function Comment(){
@@ -39,6 +39,7 @@ class User extends Authenticatable
     public function isFollowed(){
         return $this->Follower()->where('follower_id', Auth::id())->exists();
     }
+
 
     // public function isFollowing(){
     //     return $this->Following()->where('following_id', Auth::id())->exists();

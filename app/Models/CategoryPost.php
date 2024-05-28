@@ -18,6 +18,6 @@ class CategoryPost extends Model
     }
 
     public function post(){
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Post::class)->withTrashed();
     }
 }
