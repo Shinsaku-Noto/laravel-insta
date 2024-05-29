@@ -76,18 +76,21 @@ class PostController extends Controller
     {
         $categories = $this->category->all();
 
-
-        foreach ($post->categoryPost as $category)
-        {
-            $pivots[] = $category->category_id;
+        if($post->categoryPost->isEmpty()){
+            $pivots = [0];
+        }else{
+            foreach ($post->categoryPost as $category)
+            {
+                $pivots[] = $category->category_id;
+            }
         }
+
+
 
         return view('users.posts.edit')
         ->with('post', $post)
         ->with('categories', $categories)
         ->with('pivots', $pivots);
-
-
 
     }
 

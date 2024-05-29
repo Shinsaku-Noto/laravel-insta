@@ -93,9 +93,13 @@
                         </div>
                         {{-- CATEGORY --}}
                         <div class="m-3 mb-0 d-flex">
-                            @foreach ($post->categoryPost as $pivot)
-                                <div class="m-1 ms-1 mb-4 badge bg-secondary bg-opacity-25 text-white">{{ $pivot->category->name }}</div>
-                            @endforeach
+                            @if(!$post->categoryPost->isEmpty())
+                                @foreach ($post->categoryPost as $pivot)
+                                    <div class="m-1 ms-1 mb-4 badge bg-secondary bg-opacity-25 text-white">{{ $pivot->category->name }}</div>
+                                @endforeach
+                            @else
+                                <div class="m-1 ms-1 mb-4 badge bg-black text-white">Uncategorized</div>
+                            @endif
 
                         </div>
 

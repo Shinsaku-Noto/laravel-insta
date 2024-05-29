@@ -108,5 +108,8 @@
         @empty
         @endforelse
     </table>
+    <div class="d-flex justify-content-center">
+        <p class="">{{ $users->links() }}</p>
+    </div>
 
 @endsection

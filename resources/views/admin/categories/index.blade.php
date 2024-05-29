@@ -91,6 +91,16 @@
   </div>
             @empty
             @endforelse
+            <tr>
+                <td colspan="2">
+                    <p class="m-0">Uncategorized</p>
+                    <p class="mb-0 text-secondary">Hidden posts are not included</p>
+                </td>
+                <td>
+                    {{ count($uncategorized) }}
+                </td>
+                <td colspan="2"></td>
+            </tr>
         </table>
     </div>
 </div>

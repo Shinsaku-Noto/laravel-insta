@@ -18,7 +18,7 @@ class PostsController extends Controller
 
     public function index()
     {
-        $posts = $this->post->withTrashed()->get();
+        $posts = $this->post->withTrashed()->paginate(10);
 
         return view('admin.posts.index')
                 ->with('posts', $posts);

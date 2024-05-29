@@ -37,7 +37,6 @@ Route::group(["middleware" => "auth"], function () {
     Route::get('/admin/posts/softdelete/{id}', [App\Http\Controllers\Admin\PostsController::class,'softdelete'])->name('admin.posts.softdelete');
     Route::get('/admin/posts/restore/{id}', [App\Http\Controllers\Admin\PostsController::class,'restore'])->name('admin.posts.restore');
 
-
     Route::resource('/post', PostController::class);
     Route::resource('/category', CategoryController::class);
     Route::resource('/comment', CommentController::class);

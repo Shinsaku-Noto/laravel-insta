@@ -18,7 +18,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = $this->user->withTrashed()->get();
+        $users = $this->user->withTrashed()->paginate(10);
 
         return view('admin.users.index')
                 ->with('users', $users);

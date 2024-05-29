@@ -23,9 +23,13 @@
                 </a>
             </td>
             <td>
-                @foreach ($post->categoryPost as $category)
-                    <span class="badge bg-secondary bg-opacity-50">{{ $category->category->name }}</span>
-                @endforeach
+                @if($post->categoryPost->isEmpty())
+                    <span class="badge bg-black">Uncategorized</span>
+                @else
+                    @foreach ($post->categoryPost as $category)
+                        <span class="badge bg-secondary bg-opacity-50">{{ $category->category->name }}</span>
+                    @endforeach
+                @endif
             </td>
             <td>
                 <p class="mb-0">{{ $post->user->name }}</p>
@@ -117,5 +121,8 @@
 
     @endforelse
 </table>
+<div class="d-flex justify-content-center">
+    <p class="">{{ $posts->links() }}</p>
+</div>
 
 @endsection

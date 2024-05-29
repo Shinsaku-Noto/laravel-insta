@@ -33,13 +33,17 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     {{-- soon: create a search bar for users --}}
-                    <ul class="navbar-nav ms-auto">
-                        <form action="{{ route('search') }}" method="post" style="width: 300px;">
-                            @csrf
-                            @method('GET')
-                            <input type="text" name="search" class="form-control" placeholder="Search...">
-                        </form>
-                    </ul>
+                    @guest
+
+                    @else
+                        <ul class="navbar-nav ms-auto">
+                            <form action="{{ route('search') }}" method="post" style="width: 300px;">
+                                @csrf
+                                @method('GET')
+                                <input type="text" name="search" class="form-control" placeholder="Search...">
+                            </form>
+                        </ul>
+                    @endguest
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
@@ -111,9 +115,9 @@
                 @if (\Route::is('admin.*'))
                     <div class="col-3">
                         <ul class="list-group">
-                            <a href="{{ route('admin.users') }}" class="list-group-item"><i class="fa-solid fa-users"></i> Users</a>
-                            <a href="{{ route('admin.posts') }}" class="list-group-item"><i class="fa-solid fa-newspaper"></i> Posts</a>
-                            <a href="{{ route('admin.categories') }}" class="list-group-item"><i class="fa-solid fa-tags"></i> Categories</a>
+                            <a href="{{ route('admin.users') }}" class="list-group-item {{ \Route::is('admin.users')?'active':'' }}"><i class="fa-solid fa-users"></i> Users</a>
+                            <a href="{{ route('admin.posts') }}" class="list-group-item {{ \Route::is('admin.posts')?'active':'' }}"><i class="fa-solid fa-newspaper"></i> Posts</a>
+                            <a href="{{ route('admin.categories') }}" class="list-group-item {{ \Route::is('admin.categories')?'active':'' }}"><i class="fa-solid fa-tags"></i> Categories</a>
                         </ul>
                     </div>
                 @endif
