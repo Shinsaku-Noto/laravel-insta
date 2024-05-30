@@ -27,15 +27,17 @@ Route::group(["middleware" => "auth"], function () {
     Route::get('/profile/follower/{id}', [App\Http\Controllers\ProfileController::class, 'follower'])->name('profile.follower');
     Route::get('/profile/following/{id}', [App\Http\Controllers\ProfileController::class, 'following'])->name('profile.following');
 
-    Route::get('/admin/users/', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.users');
-    Route::get('/admin/posts/', [App\Http\Controllers\Admin\PostsController::class, 'index'])->name('admin.posts');
-    Route::get('/admin/categories/', [App\Http\Controllers\Admin\CategoriesController::class, 'index'])->name('admin.categories');
+    Route::group(["middleware" => "admin"],function(){
+        Route::get('/admin/users/', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.users');
+        Route::get('/admin/posts/', [App\Http\Controllers\Admin\PostsController::class, 'index'])->name('admin.posts');
+        Route::get('/admin/categories/', [App\Http\Controllers\Admin\CategoriesController::class, 'index'])->name('admin.categories');
 
-    Route::get('/admin/users/softdelete/{id}', [App\Http\Controllers\Admin\UserController::class,'softdelete'])->name('admin.users.softdelete');
-    Route::get('/admin/users/restore/{id}', [App\Http\Controllers\Admin\UserController::class,'restore'])->name('admin.users.restore');
+        Route::get('/admin/users/softdelete/{id}', [App\Http\Controllers\Admin\UserController::class,'softdelete'])->name('admin.users.softdelete');
+        Route::get('/admin/users/restore/{id}', [App\Http\Controllers\Admin\UserController::class,'restore'])->name('admin.users.restore');
 
-    Route::get('/admin/posts/softdelete/{id}', [App\Http\Controllers\Admin\PostsController::class,'softdelete'])->name('admin.posts.softdelete');
-    Route::get('/admin/posts/restore/{id}', [App\Http\Controllers\Admin\PostsController::class,'restore'])->name('admin.posts.restore');
+        Route::get('/admin/posts/softdelete/{id}', [App\Http\Controllers\Admin\PostsController::class,'softdelete'])->name('admin.posts.softdelete');
+        Route::get('/admin/posts/restore/{id}', [App\Http\Controllers\Admin\PostsController::class,'restore'])->name('admin.posts.restore');
+    });
 
     Route::resource('/post', PostController::class);
     Route::resource('/category', CategoryController::class);
