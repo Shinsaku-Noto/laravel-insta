@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-
     private $post;
     private $category;
     public function __construct(Post $post, Category $category)
@@ -39,6 +38,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'category' => 'required|array|max:3',
+        ],
+        [
+            'category.required' => 'You must choose at least 1 category',
+            'category.max' => 'You can only choose up to 3 categories'
+        ]);
+
         $this->post->user_id = Auth::user()->id;
         $this->post->image =  'data:image/'.$request->image->extension().';base64,'.base64_encode(file_get_contents($request->image));
         $this->post->description = $request->description;
@@ -99,6 +106,14 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $request->validate([
+            'category' => 'required|array|max:3',
+        ],
+        [
+            'category.required' => 'You must choose at least 1 category',
+            'category.max' => 'You can only choose up to 3 categories'
+        ]);
+
         $post->user_id = Auth::user()->id;
         if($request->image){
             $post->image =  'data:image/'.$request->image->extension().';base64,'.base64_encode(file_get_contents($request->image));
@@ -123,7 +138,7 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = $this->post->findOrFail($id);
-        $post->delete();
+        $post->forceDelete();
 
         return redirect()->route('index');
     }

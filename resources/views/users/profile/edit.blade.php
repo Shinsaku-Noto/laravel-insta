@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-4">
                         @if ($user->avatar)
-                            <img src="#" alt="#" class="rounded-circle">
+                            <img src="{{ $user->avatar }}" alt="#" class="rounded-circle avatar-lg p-1 ">
                         @else
                         <div class="">
                             <i class="fa-solid fa-circle-user text-secondary fa-10x"></i>

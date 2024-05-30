@@ -41,7 +41,7 @@
                 @endif
             </div>
             <div class="d-flex">
-                <p class="me-4">{{ $user->post->count() }} post</p>
+                <a href="{{ route('profile.show', $user) }}" class="text-decoration-none text-black me-4">{{ $user->post->count() }} post</a>
                 <a href="{{ route('profile.follower', $user) }}" class="text-decoration-none text-black me-4">{{ $user->follower()->count() }} follower</a>
                 <a href="{{ route('profile.following', $user) }}" class="text-decoration-none text-black me-4">{{ $user->following()->count() }} following</a>
             </div>

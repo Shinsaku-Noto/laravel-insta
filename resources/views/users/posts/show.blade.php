@@ -41,7 +41,21 @@
                                     <button type="button" class="btn text-danger" data-bs-toggle="modal" data-bs-target="#delete"><i class="fa-regular fa-trash-can"></i> Delete</button>
                                 </li>
                             @else
-                                <li><a class="dropdown-item text-danger" href="#">Unfollow</a></li>
+                                <li>
+                                    @if($post->user->isFollowed())
+                                        <form action="{{ route('follow.destroy', $post->user->id) }}" method="post" class="mb-0">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="dropdown-item text-danger">Unfollow</button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('follow.store') }}" method="post" class="mb-0">
+                                            @csrf
+                                            <input type="hidden" value="{{ $post->user->id }}" name="following_id">
+                                            <button type="submit" class="dropdown-item">follow</button>
+                                        </form>
+                                    @endif
+                                </li>
                             @endif
                         </ul>
                     </div>
@@ -57,9 +71,13 @@
                             <p class="m-1 ms-3">0</p>
                         </div>
                         <div class="mx-3 d-flex">
-                            @foreach ($post->categoryPost as $pivot)
-                                <div class="m-1 ms-1 mb-4 badge bg-secondary bg-opacity-25 text-white">{{ $pivot->category->name }}</div>
-                            @endforeach
+                            @if(!$post->categoryPost->isEmpty())
+                                @foreach ($post->categoryPost as $pivot)
+                                    <div class="m-1 ms-1 mb-4 badge bg-secondary bg-opacity-25 text-white">{{ $pivot->category->name }}</div>
+                                @endforeach
+                            @else
+                                <div class="m-1 ms-1 mb-4 badge bg-black text-white">Uncategorized</div>
+                            @endif
 
                         </div>
 
@@ -85,25 +103,27 @@
                     </div>
 
                     {{-- comments --}}
-                    @if($post->Comment)
-                        @foreach ($post->Comment as $comment)
-                            <div class="bg-light mb-2">
-                                <div class="my-1 mx-3 pt-1">
-                                    <p class="mb-0 fs-6"><span class="fw-bold me-2">{{ $comment->user->name }}</span>{{ $comment->comments }}</p>
+                    <div class="mb-3">
+                        @if($post->Comment)
+                            @foreach ($post->Comment as $comment)
+                                <div class="bg-light mb-2">
+                                    <div class="my-1 mx-3 pt-1">
+                                        <p class="mb-0 fs-6"><span class="fw-bold me-2">{{ $comment->user->name }}</span>{{ $comment->comments }}</p>
+                                    </div>
+                                    <div class="mx-3 my-0 text-secondary d-flex">
+                                        <p class="mb-0">{{ $comment->created_at->format('F d, Y') }}</p>
+                                        @if($comment->user->id == Auth::id())
+                                            <form action="{{ route('comment.destroy', $comment) }}" method="post" class="mb-0">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn text-decoration-none text-danger ms-2 p-0">Delete</button>
+                                            </form>
+                                        @endif
+                                    </div>
                                 </div>
-                                <div class="mx-3 my-0 text-secondary d-flex">
-                                    <p class="mb-0">{{ $comment->created_at->format('F d, Y') }}</p>
-                                    @if($comment->user->id == Auth::id())
-                                        <form action="{{ route('comment.destroy', $comment) }}" method="post" class="mb-0">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn text-decoration-none text-danger ms-2 p-0">Delete</button>
-                                        </form>
-                                    @endif
-                                </div>
-                            </div>
-                        @endforeach
-                    @endif
+                            @endforeach
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

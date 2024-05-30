@@ -19,6 +19,15 @@
                 @endif
         <label class="form-check-label me-3">{{ $category->name }}</label>
         @endforeach
+        @if ($errors->any())
+            <div>
+                <ul class="p-0">
+                    @foreach ($errors->all() as $error)
+                        <li class="list-unstyled text-danger">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </div>
 
     <div class="mt-4">

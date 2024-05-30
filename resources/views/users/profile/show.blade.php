@@ -8,9 +8,7 @@
     <div class="row">
         <div class="col-4">
             @if ($user->avatar)
-                <div class="d-flex justify-content-center w-50 m-auto shadow bg-white rounded-circle">
-                    <img src="{{ $user->avatar }}" alt="#" class="rounded-circle avatar-lg p-1 ">
-                </div>
+                <img src="{{ $user->avatar }}" alt="#" class="rounded-circle avatar-lg p-1 mx-auto d-block">
             @else
             <div class="d-flex justify-content-center">
                 <i class="fa-solid fa-circle-user text-secondary fa-10x"></i>
@@ -40,7 +38,7 @@
                 @endif
             </div>
             <div class="d-flex">
-                <p class="me-4">{{ $user->post->count() }} post</p>
+                <a href="{{ route('profile.show', $user) }}" class="text-decoration-none text-black me-4">{{ $user->post->count() }} post</a>
                 <a href="{{ route('profile.follower', $user) }}" class="text-decoration-none text-black me-4">{{ $user->follower()->count() }} follower</a>
                 <a href="{{ route('profile.following', $user) }}" class="text-decoration-none text-black me-4">{{ $user->following()->count() }} following</a>
             </div>
@@ -51,7 +49,7 @@
     <div class="row mt-5">
         @forelse($user->post as $post)
         <div class="col-4">
-            <form action="{{ route('post.edit', $post) }}" method="post">
+            <form action="{{ route('post.show', $post) }}" method="post">
                 @csrf
                 @method('GET')
                 <button type="submit" class="btn p-0 w-100 ratio ratio-1x1">
